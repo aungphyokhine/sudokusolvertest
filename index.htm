@@ -1,0 +1,611 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Sudoku Helper</title>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="oneColLiqCtrHdr">
+    <h1>Sudoku Helper</h1>
+    <p><small>
+           Testing အတြက္ေရးထားတာမို႔ အၾကမ္းထည္ၾကီးပါ.. code ေတြလဲျပန္ optimize မလုပ္ရေသးပါ.. refrence လုပ္ဖို႔ရန္သာရည္ရြယ္ပါတယ္..
+           တခါထဲအေျဖထြက္ေအာင္မတြက္ႏုိင္ခဲ႔ရင္ Possible state ေတြထဲကတခုပီးတခု ေရြးပီး အေျဖမရမခ်င္း try ၾကည့္ႏုိင္ပါတယ္..
+           resource စားသက္သာေအာင္ looping မပတ္ဘဲထားတာပါ.. javascript ေတြနဲ႔ေရးထားပီး  looping ေတြပါတဲ႔အတြက္. battery စားပါလိမ့္မယ္.. ဖုန္း browser နဲ႔သံုးရင္.. ပိုေလးပါလိမ့္မယ္..
+<br />
+    developer <a href="https://www.facebook.com/aungphyokhine">Aung Phyo Khine</a> - thargyee@gmail.com
+</small>
+    </p>
+    <div id="container" class="cellcontainer">
+        <div class="sudokupnl">
+            <table>
+
+                <tr>
+                    <td class="yellowback">
+                        <div>
+                            <input type="text" id="cell11" />
+                            <input type="text" id="cell12" />
+                            <input type="text" id="cell13" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell21" />
+                            <input type="text" id="cell22" />
+                            <input type="text" id="cell23" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell31" />
+                            <input type="text" id="cell32" />
+                            <input type="text" id="cell33" />
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" id="cell14" />
+                            <input type="text" id="cell15" />
+                            <input type="text" id="cell16" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell24" />
+                            <input type="text" id="cell25" />
+                            <input type="text" id="cell26" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell34" />
+                            <input type="text" id="cell35" />
+                            <input type="text" id="cell36" />
+                        </div>
+                    </td>
+                    <td class="yellowback">
+                        <div>
+                            <input type="text" id="cell17" />
+                            <input type="text" id="cell18" />
+                            <input type="text" id="cell19" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell27" />
+                            <input type="text" id="cell28" />
+                            <input type="text" id="cell29" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell37" />
+                            <input type="text" id="cell38" />
+                            <input type="text" id="cell39" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <input type="text" id="cell41" />
+                            <input type="text" id="cell42" />
+                            <input type="text" id="cell43" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell51" />
+                            <input type="text" id="cell52" />
+                            <input type="text" id="cell53" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell61" />
+                            <input type="text" id="cell62" />
+                            <input type="text" id="cell63" />
+                        </div>
+                    </td>
+                    <td class="yellowback">
+                        <div>
+                            <input type="text" id="cell44" />
+                            <input type="text" id="cell45" />
+                            <input type="text" id="cell46" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell54" />
+                            <input type="text" id="cell55" />
+                            <input type="text" id="cell56" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell64" />
+                            <input type="text" id="cell65" />
+                            <input type="text" id="cell66" />
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" id="cell47" />
+                            <input type="text" id="cell48" />
+                            <input type="text" id="cell49" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell57" />
+                            <input type="text" id="cell58" />
+                            <input type="text" id="cell59" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell67" />
+                            <input type="text" id="cell68" />
+                            <input type="text" id="cell69" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="yellowback">
+                        <div>
+                            <input type="text" id="cell71" />
+                            <input type="text" id="cell72" />
+                            <input type="text" id="cell73" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell81" />
+                            <input type="text" id="cell82" />
+                            <input type="text" id="cell83" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell91" />
+                            <input type="text" id="cell92" />
+                            <input type="text" id="cell93" />
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" id="cell74" />
+                            <input type="text" id="cell75" />
+                            <input type="text" id="cell76" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell84" />
+                            <input type="text" id="cell85" />
+                            <input type="text" id="cell86" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell94" />
+                            <input type="text" id="cell95" />
+                            <input type="text" id="cell96" />
+                        </div>
+                    </td>
+                    <td class="yellowback">
+                        <div>
+                            <input type="text" id="cell77" />
+                            <input type="text" id="cell78" />
+                            <input type="text" id="cell79" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell87" />
+                            <input type="text" id="cell88" />
+                            <input type="text" id="cell89" />
+                        </div>
+                        <div>
+                            <input type="text" id="cell97" />
+                            <input type="text" id="cell98" />
+                            <input type="text" id="cell99" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="border:none;">
+
+                        <div class="commandpnl">
+                            <input type="submit" value="calculate" onclick="calculate()" />
+                            <input type="button" value="save" onclick="savevalues()" />
+                        </div>
+                        <div class="logtbl">
+                            <br /><br />
+                            <div id="savehistroy">
+
+                            </div>
+
+
+
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+            <div id="possiblestates">
+
+            </div>
+        </div>   
+
+        
+
+    </div>
+    
+    
+    
+    <div id="logs">
+
+    </div>
+    <script>
+        var needtosolves = [];
+        var needtosovlesarr = 0;
+
+        function calculate() {
+
+            colvalues();
+            blockvalues();
+            savevalues();
+            needtosolves = [];
+            needtosovlesarr = 0;
+
+
+            var result = checkvalues();
+            if (result == 1) {
+                alert("success");
+            }
+            else if (result == 0) {
+
+
+                var neds = 0;
+                var conflits = [];
+                var conflitsarr = 0;
+                for (i = 1; i < 10; i++) {
+
+
+                    for (j = 1; j < 10; j++) {
+                        if (needtosolves[i + "" + j] != null) {
+                            neds++;
+                            conflits[conflitsarr] = { id: i + "" + j, val: needtosolves[i + "" + j], ord: needtosolves[i + "" + j].length };
+                            conflitsarr++;
+                        }
+                    }
+                }
+
+
+
+                function compare(a, b) {
+                    if (a.ord < b.ord)
+                        return -1;
+                    if (a.ord > b.ord)
+                        return 1;
+                    return 0;
+                }
+
+                conflits.sort(compare);
+                //alert(JSON.stringify(conflits));
+
+                var finish = false;
+
+                for (cel = 0; cel < conflits.length ; cel++) {
+
+                    var childns = conflits[cel];
+                    var forrev = [];
+
+                    for (chil = 0; chil < childns.val.length; chil++) {
+
+                        forrev = getvalues();
+                        $("#cell" + childns.id).val(childns.val[chil]);
+
+
+                        colvalues();
+                        blockvalues();
+
+                        var result = checkvalues();
+
+                        //  alert("Still need to do, let me try.");
+
+                        if (result == 1) {
+
+                            finish = true;
+                            break;
+                        }
+                        else if (result == -1) {
+
+                            setvaluesbyarr(forrev);
+
+
+                        }
+                        else {
+                            savepossibilities();
+                            setvaluesbyarr(forrev);
+                            
+                        }
+
+                    }
+
+                    if (finish)
+                        break;
+
+
+                }
+
+                if (!finish) {
+                    //alert(JSON.stringify(conflits));
+                    alert("The sudoku is not sovled yet, Please try from any desired possible state.");
+                }
+                else {
+                    alert("The sudoku is sovled");
+                }
+
+            }
+            else {
+                alert("stop");
+            }
+        }
+
+        var valuesarr = [];
+        valuesarr[0] = [null, null, null, null, null, null, null, null, null, null, null, "8", "", "", "4", "", "6", "", "", "7", null, "", "", "", "", "", "", "4", "", "", null, "", "1", "", "", "", "", "6", "5", "", null, "5", "", "9", "", "3", "", "7", "8", "", null, "", "", "", "", "7", "", "", "", "", null, "", "4", "8", "", "2", "", "1", "", "3", null, "", "5", "2", "", "", "", "", "9", "", null, "", "", "1", "", "", "", "", "", "", null, "3", "", "", "9", "", "2", "", "", "5"];
+        var valuearridx = 0;
+
+        function checkfinish() {
+            var values = [];
+            for (i = 1; i < 10; i++) {
+                for (j = 1; j < 10; j++) {
+
+                    if ($("#cell" + i + "" + j).val() == "")
+                        return false;
+                }
+
+            }
+
+            return true;
+
+        }
+
+
+        function getvalues() {
+            var values = [];
+            for (i = 1; i < 10; i++) {
+                for (j = 1; j < 10; j++) {
+
+                    values[i + "" + j] = $("#cell" + i + "" + j).val();
+                }
+
+            }
+            //alert(JSON.stringify(values));
+            return values;
+
+        }
+
+        var posibileidx = 1;
+        function savepossibilities() {
+            valuesarr[valuearridx] = getvalues();
+         
+            $("#possiblestates").append("<div class='clickitem'><b>Possible state : " + posibileidx + "</b><br/><a onclick='setvalues(" + valuearridx + ")'> Check it.. </a>"+"  or <a onclick='starttry(" + valuearridx + ")'> Try it..</a></div>");
+           
+            posibileidx++;
+            valuearridx++;
+        }
+        var hisidx = 0;
+        function savevalues() {
+            valuesarr[valuearridx] = getvalues();
+            if (valuearridx == 0) {
+                $("#savehistroy").append("<a onclick='setvalues(" + valuearridx + ")'>Go to the begining..</a>");
+            }
+            else {
+                $("#savehistroy").append("<a onclick='setvalues(" + valuearridx + ")'> history " + hisidx + "</a>");
+            }
+            hisidx++;
+            valuearridx++;
+        }
+
+        function setvalues(idx) {
+            var values = valuesarr[idx];
+            for (i = 1; i < 10; i++) {
+                for (j = 1; j < 10; j++) {
+
+                    $("#cell" + i + "" + j).val(values[i + "" + j]);
+                }
+
+            }
+        }
+
+        function starttry(idx) {
+            var values = valuesarr[idx];
+            for (i = 1; i < 10; i++) {
+                for (j = 1; j < 10; j++) {
+
+                    $("#cell" + i + "" + j).val(values[i + "" + j]);
+                }
+
+            }
+
+            calculate();
+        }
+
+
+        function setvaluesbyarr(arr) {
+            var values = arr;
+            for (i = 1; i < 10; i++) {
+                for (j = 1; j < 10; j++) {
+
+                    $("#cell" + i + "" + j).val(values[i + "" + j]);
+                }
+
+            }
+        }
+
+        function getnotexistvalues(existvalues) {
+
+            var nonexistvalues = [];
+            var arridx = 0;
+            for (c = 1; c < 10; c++) {
+
+                if (existvalues.indexOf(c + "") < 0) {
+                    nonexistvalues[arridx] = c;
+                    arridx++;
+                }
+            }
+            return nonexistvalues;
+        }
+
+
+
+
+        function checkvalues() {
+
+
+            var result = 0;
+            var valid = true;
+
+
+
+
+            $("#logs").html("");
+            for (i = 1; i < 10; i++) {
+
+
+                for (j = 1; j < 10; j++) {
+
+                    if ($("#cell" + i + "" + j).val() == "") {
+
+                        var existvalues = [];
+                        var arridx = 0;
+
+                        var row = rows[i - 1];
+                        for (a = 0; a < 9; a++) {
+                            existvalues[arridx] = row[a];
+                            arridx++;
+                        }
+
+                        var col = cols[j - 1];
+                        for (b = 0; b < 9; b++) {
+                            existvalues[arridx] = col[b];
+                            arridx++;
+                        }
+
+                        var checkblock = 0;
+                        if (i < 4) {
+
+                            if (j < 4) {
+                                checkblock = 0;
+                            }
+                            else if (j < 7) {
+                                checkblock = 1;
+                            }
+                            else {
+                                checkblock = 2;
+                            }
+                        }
+                        else if (i < 7) {
+                            if (j < 4) {
+                                checkblock = 3;
+                            }
+                            else if (j < 7) {
+                                checkblock = 4;
+                            }
+                            else {
+                                checkblock = 5;
+                            }
+                        }
+                        else {
+                            if (j < 4) {
+                                checkblock = 6;
+                            }
+                            else if (j < 7) {
+                                checkblock = 7;
+                            }
+                            else {
+                                checkblock = 8;
+                            }
+                        }
+
+
+                        var block = blocks[checkblock];
+                        for (c = 0; c < 9; c++) {
+                            existvalues[arridx] = block[c];
+                            arridx++;
+                        }
+
+                        var nonexist = getnotexistvalues(existvalues);
+
+                        if (nonexist.length == 1) {
+                            $("#cell" + i + "" + j).val(nonexist[0]);
+                            $("#cell" + i + "" + j).css("background-color", "green");
+                            colvalues();
+                            blockvalues();
+                            needtosolves[i + "" + j] = null;
+
+                            //needtosovlesarr = 0;
+                            checkvalues();
+
+
+                        }
+                        else if (nonexist.length == 0) {
+                            $("#cell" + i + "" + j).css("background-color", "red");
+                            //alert("cant choose : " + JSON.stringify(nonexist));
+                            valid = false;
+                        }
+                        else {
+                            $("#cell" + i + "" + j).css("background-color", "blue");
+                            needtosolves[i + "" + j] = nonexist;
+
+                        }
+                    }
+
+                }
+
+            }
+            //alert(JSON.stringify(needtosolves));
+            if (checkfinish()) {
+                return 1;
+            }
+            else {
+                if (valid) {
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+
+            }
+
+        }
+
+
+
+        var cols = [];
+        var rows = [];
+        var blocks = [];
+
+
+
+
+        function colvalues() {
+            var idx = 0;
+            for (i = 1; i < 10; i++) {
+                var colcells = [];
+                var rowcells = [];
+                var arridx = 0;
+                for (j = 1; j < 10; j++) {
+                    colcells[arridx] = $("#cell" + j + "" + i).val();
+                    rowcells[arridx] = $("#cell" + i + "" + j).val();
+                    arridx++;
+                }
+                cols[idx] = colcells;
+                rows[idx] = rowcells;
+                idx++;
+            }
+            //alert(JSON.stringify(rows));
+        }
+
+
+        function blockvalues() {
+
+            var idx = 0;
+
+            for (z = 0; z < 3; z++) {
+                for (k = 0; k < 3; k++) {
+                    var cells = [];
+                    var arridx = 0;
+                    for (i = (k * 3) + 1; i < (k * 3) + 4; i++) {
+
+
+                        for (j = (z * 3) + 1; j < (z * 3) + 4; j++) {
+                            //alert("k:" + k+";j:" + j + ";i:" + i);
+                            cells[arridx] = $("#cell" + j + "" + i).val();
+                            arridx++;
+                        }
+
+
+                    }
+                    blocks[idx] = cells;
+                    idx++;
+                    //alert(JSON.stringify(block));
+
+                }
+            }
+            //alert(JSON.stringify(blocks));
+        }
+
+    </script>
+</body>
+</html>
